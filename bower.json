@@ -1,0 +1,22 @@
+{
+  "name": "000_simple_polymer_setup",
+  "authors": [
+    "Jeremiah Reichardt <jeremiah.reichardt@byhook.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.4.0",
+    "gsap": "^1.18.4",
+    "platform": "Polymer/platform#^0.4.2"
+  }
+}
