@@ -1,0 +1,119 @@
+<dom-module id="beaker-element">
+<dom-module id="beaker-element">
+<template>
+<style>
+  .beaker-element {
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  img {
+    width:100%;
+    height: 100%;
+  }
+
+  #bubbles {
+    overflow:hidden;
+    width: 10px;
+    height: 10px;
+  }
+
+  .bubble{
+    display: inline;
+    opacity: 0;
+    border-radius: 50%;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+  }
+
+  .smallBubble{
+    width:10px;
+    height:10px;
+    background-color:rgba(34, 242, 78, .5);
+    border-radius: 50%;
+  }
+
+  .mediumBubble{
+    width:12px;
+    height:12px;
+    background-color:rgba(34, 242, 78, .5);
+    border-radius: 50%;
+  }
+
+  .largeBubble{
+    width:15px;
+    height:15px;
+    border-radius: 50%;
+    background-color:rgba(34, 242, 78, .5);
+  }
+
+    </style>
+    <div on-click="onClick" on-mousedown="onMouseDown" on-mouseup="onMouseUp" on-mouseleave="onMouseUp">
+      <div id="bubbles"></div>
+      <img src={{source}}></img>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'beaker-element',
+
+      ready: function(){
+        var sizes = ["small", "medium", "large"];
+        var bubbleContainer = this.$.bubbles;
+        var startY = 20;
+        var endY = -100;
+
+        var tl = new TimelineMax();
+
+        for (var i = 0; i < 20; i++) {
+          var sizeIndex = randomNumber(0,2); //get random number between 0 and 2
+          var size = sizes[sizeIndex]; //get random size
+          var speed = (6 - sizeIndex) //larger faster
+          var newDiv = document.createElement("div");
+            newDiv.className = "bubble";
+            newDiv.className += " " + size + "Bubble style-scope beaker-element";
+          var bubble = bubbleContainer.appendChild(newDiv); //create a bubble
+
+            tl.set(bubble, {y:startY, x:34}, 0) // place it at the bottom
+
+            //create an animation at a random start time
+            tl.to(bubble, speed, {opacity: 1, y:randomNumber(endY - 20, endY + 5), x:randomNumber(-10, 110),
+              repeatDelay: -2, repeat:500},
+              Math.random() * 2);
+          }
+          
+        function randomNumber(min, max){
+            return Math.floor(Math.random() * (1 + max - min) + min);
+        }
+      },
+
+      onMouseDown: function(e) {
+        addClass(e.currentTarget, 'press');
+      },
+
+      onMouseUp: function(e) {
+        removeClass(e.currentTarget, 'press');
+      },
+
+      onClick: function(e) {
+        TweenMax.to(this.querySelector('.beaker-element'), 0.5, {ease:Strong.easeIn, width:'0', marginLeft: '50%'});
+      },
+
+      properties: {
+        source: {
+          type: String,
+          value: '../images/beaker.svg',
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
