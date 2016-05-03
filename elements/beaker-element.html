@@ -73,7 +73,7 @@
 
         var tl = new TimelineMax();
 
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < 12; i++) {
           var sizeIndex = randomNumber(0,2); //get random number between 0 and 2
           var size = sizes[sizeIndex]; //get random size
           var speed = (6 - sizeIndex) //larger faster
@@ -86,8 +86,8 @@
 
             //create an animation at a random start time
             tl.to(bubble, speed, {opacity: 1, y:randomNumber(endY - 20, endY + 5), x:randomNumber(-10, 110),
-              repeatDelay: -2, repeat:500},
-              Math.random() * 2);
+              repeatDelay: -2, repeat:-1},
+            Math.random() * 2);
           }
           
         function randomNumber(min, max){
