@@ -1,0 +1,144 @@
+<dom-module id="my-tweens">
+
+  <template>
+
+    <style>
+
+      :host {
+        display: block;
+        height: 100%;
+        cursor: pointer;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: white;
+        border: 1px solid black;
+      }
+
+      .headline {
+          display: block;
+          position: relative;
+          top: 20px;
+          left: 20px;
+          font-size: 44px;
+      }
+
+      .subtitle {
+        display: block;
+        position: relative;
+        top: 30px;
+        left: 20px;
+        font-size: 24px;
+        font-style: oblique;
+      }
+
+      .whale {
+        display: inline-block;
+        position: relative;
+        top: 37px;
+        left: 20px;
+        width: 150px;
+        height: 150px;
+      }
+
+      .paragraph1 {
+        display: block;
+        position: relative;
+        bottom: 65px;
+        left: 196px;
+        width: 367px;
+        font-size: 18px;
+        text-align: justify;
+        white-space: normal;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .paragraph2 {
+        display: block;
+        position: relative;
+        bottom: 32px;
+        left: 196px;
+        width: 367px;
+        font-size: 18px;
+        text-align: justify;
+        white-space: normal;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+        .cta {
+          display: inline-block;
+          position: relative;
+          bottom: 10px;
+          float: right;
+          margin-right: 34px;
+          width: auto;
+          padding-left: 10px;
+          padding-right: 10px;
+          height: 32px;
+          background-color: rgb(111, 171, 241); 
+          border: 2px solid rgb(111, 171, 241);
+          color: white;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 32px;
+          text-align: center;
+        }
+
+    </style>
+
+    <div id="container"></div>
+      <div class="headline">{{headline}}</div>
+      <div class="subtitle">{{subtitle}}</div>
+      <img class="whale" src={{whale}}></img>
+      <div class="paragraph1">{{paragraph1}}</div>
+      <div class="paragraph2">{{paragraph2}}</div>
+      <div class="cta">{{ctaText}}</div>
+    </div>
+
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'my-tweens',
+
+        ready: function(){
+        },
+
+        properties: {
+          headline: {
+            type: String,
+            value: 'Call me Ishmael',
+          },
+          subtitle: {
+            type: String,
+            value: 'Some years ago - never mind how long precisely...'
+          },
+          whale: {
+            type: String,
+            value: './images/bluewhale.svg',
+          },
+          paragraph1: {
+            type: String,
+            value: "I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation." 
+            },
+            paragraph2: {
+            type: String,
+            value: 'With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.'  
+          },
+            ctaText: {
+              type: String,
+              value: "BOARD THE PEQUOD"
+            } 
+        }
+      });
+    })();
+  </script> 
+
+</dom-module>
