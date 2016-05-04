@@ -18,24 +18,21 @@
       }
 
       header {
-          display: block;
-          position: relative;
-          top: 20px;
-          left: 20px;
-          font-size: 44px;
+        position: relative;
+        top: 20px;
+        left: 20px;
+        font-size: 44px;
       }
 
-      .subtitle {
-        display: block;
+      #subtitle {
         position: relative;
         top: 30px;
         left: 20px;
         font-size: 24px;
         font-style: oblique;
+      
       }
-
-      .whale {
-        display: inline-block;
+      img {
         position: relative;
         top: 37px;
         left: 20px;
@@ -43,8 +40,7 @@
         height: 150px;
       }
 
-      .paragraph1 {
-        display: block;
+      #paragraph1 {
         position: relative;
         bottom: 65px;
         left: 196px;
@@ -56,8 +52,7 @@
         overflow: hidden;
       }
 
-      .paragraph2 {
-        display: block;
+      #paragraph2 {
         position: relative;
         bottom: 32px;
         left: 196px;
@@ -69,34 +64,33 @@
         overflow: hidden;
       }
 
-        .cta {
-          display: inline-block;
-          position: relative;
-          width: auto;
-          height: 32px;
-          bottom: 10px;
-          float: right;
-          margin-right: 34px;
-          padding-left: 10px;
-          padding-right: 10px;
-          background-color: rgb(111, 171, 241); 
-          border: 2px solid rgb(111, 171, 241);
-          color: white;
-          font-size: 14px;
-          font-weight: 400;
-          text-align: center;
-          cursor: pointer;
-        }
+      button {
+        position: relative;
+        width: auto;
+        height: 32px;
+        bottom: 10px;
+        float: right;
+        margin-right: 34px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: rgb(111, 171, 241); 
+        border: 2px solid rgb(111, 171, 241);
+        color: white;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+        cursor: pointer;
+      }
 
     </style>
 
     <div id="container"></div>
       <header>{{headline}}</header>
-      <div class="subtitle">{{subtitle}}</div>
-      <img class="whale" src={{whale}}></img>
-      <div class="paragraph1">{{paragraph1}}</div>
-      <div class="paragraph2">{{paragraph2}}</div>
-      <button class="cta">{{ctaText}}</button>
+      <div id="subtitle">{{subtitle}}</div>
+      <img src={{whale}}></img>
+      <div id="paragraph1">{{paragraph1}}</div>
+      <div id="paragraph2">{{paragraph2}}</div>
+      <button>{{ctaText}}</button>
     </div>
 
   </template>
@@ -109,6 +103,13 @@
         is: 'my-tweens',
 
         ready: function(){
+
+          var tl = new TimelineLite();
+          tl.from(this.$$('header'), 1, {left: 10, opacity: 0})
+          .from(this.$.subtitle, 0.5, {left: 50, opacity: 0}, "-=0.3")
+          .from(this.$.paragraph1, 0.2, {y:20, opacity: 0}, 1)
+          .from(this.$.paragraph2, 0.2, {x: 40, opacity: 0}, 1.5)
+          .from(this.$$('img'), 1, {rotation: 360, opacity: 0}, 1);
         },
 
         properties: {
