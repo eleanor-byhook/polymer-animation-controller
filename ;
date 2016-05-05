@@ -1,6 +1,6 @@
 <dom-module id="tween-scrubber" is="dom-bind">
 
-<template>
+  <template>
 
     <style>
 
@@ -37,7 +37,6 @@
       }
 
       #progressSlider {
-        width: 350px;
         min: 0;
         max: 100;
         step: 1;
@@ -81,12 +80,9 @@
     </style>
 
 
-    <div class="sliderValues">time: <span
-        id="time"></span>s / progress: <span id="progress">{{progressPercent}}</span>
-
-    <paper-slider pin min="0" max="1" value="{{progressValue}}" step="0.001" class="slider" id="progressSlider"></paper-slider>
-    <div>{{data.time}}</div>
+    <div class="sliderValues">time: <span id="time"></span>s / progress: <span id="progress"></span>
     </div>
+    <input type="range" value="0" class="slider" id="progressSlider"/>
     <button id="playBtn">play()</button>
     <button id="pauseBtn">pause()</button>
     <button id="resumeBtn">resume()</button>
@@ -94,10 +90,9 @@
     <button id="restartBtn">restart()</button>
 
     <div style="text-align:left; width:420px; margin:auto">
-      <paper-slider pin min="0.25" max="4" value="{{timeScale}}" step="0.25" class="slider" id="timeScaleSlider"></paper-slider>
+      <input type="range" value="1" class="slider" id="timeScaleSlider">
       </div>
-      <div class="sliderValues" style="display:inline-block">timeScale: <span
-          id="timeScale">{{timeScale}}</span>
+      <div class="sliderValues" style="display:inline-block">timeScale:<span id="timeScale">1</span>
       </div>
     </div>  
     <iron-meta key="controls" value="WOOOOAH!"></iron-meta>
@@ -111,65 +106,16 @@
       Polymer({
         is: 'tween-scrubber',
 
-        listeners: {
-          'progressSlider.change' : 'updateProgressSlider',
-          'timeScaleSlider.change' : 'updateTimeScale',
-        },
-
-        updateProgressSlider: function(e) {
-          this.data.progressValue = e.target.immediateValue;
-          this.updateData(e.target.immediateValue, this.data.timeScale);
-        },
-
-        updateTimeScale: function(e) {
-          this.data.timeScale = e.target.immediateValue;
-          this.updateData(this.data.progressValue, e.target.immediateValue);
-        },
-
-
         ready: function(){
+          var text = new Polymer.IronMetaQuery({key: 'word'}).value;
+          this.$.playBtn.textContent = text;
+          
           CSSPlugin.defaultTransformPerspective = 400;
-          this.addEventListener("data-changed", this.updateData);
-
-        },
-
-        properties: {
-          progressValue: {
-            type: Number,
-            value: 0,
-            notify: true,
-          },
-          timeScale: {
-            type: Number,
-            value: 1,
-            notify: true,
-          },
-
-          data: {
-            type: Object,
-            notify: true,
-            computed: 'updateData(progressValue, timeScale)'
-          },
-          progressPercent: {
-            type: Number,
-            computed: 'percentify(progressValue)'
-          },
-          headline: {
-            type: String,
-            notify: true
+                        /*slide: function(event, ui) {
+              tl.progress(ui.value).pause();
+            }
+            */
           }
-        },
-
-        percentify: function(val) {
-          return Math.floor(val * 100) +'%';
-        },
-        updateData: function(prog, time){
-          return {
-            progressValue: prog, 
-            timeScale: time
-          }
-        },
-
       });
     })();
   </script> 

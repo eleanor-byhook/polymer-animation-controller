@@ -1,6 +1,6 @@
 <dom-module id="my-tweens" is="dom-bind">
 
-  <template>
+<template>
 
     <style>
 
@@ -93,10 +93,10 @@
       <div id="paragraph2">{{paragraph2}}</div>
       <button>{{ctaText}}</button>
     </div>
-
   </template>
 
   <script>
+
     (function() {
       'use strict';
 
@@ -104,42 +104,58 @@
         is: 'my-tweens',
 
         ready: function(){
+          this.addEventListener("data-changed", this.sendAMessage);
 
-          var text = new Polymer.IronMetaQuery({key: 'controls'}).value;
-          this.$$('header').textContent = text;
-
-          var tl = new TimelineLite();
-          tl.from(this.$$('header'), 1, {left: 10, opacity: 0})
+          this.tl.from(this.$$('header'), 1, {left: 10, opacity: 0})
           .from(this.$.subtitle, 0.5, {left: 50, opacity: 0}, "-=0.3")
           .from(this.$.paragraph1, 0.2, {y:20, opacity: 0}, 1)
           .from(this.$.paragraph2, 0.2, {x: 40, opacity: 0}, 1.5)
           .from(this.$$('img'), 1, {rotation: 360, opacity: 0}, 1);
         },
 
+        sendAMessage: function(newVal){
+          console.log('MY TWEENS data: ' + JSON.stringify(newVal));
+        },
+
         properties: {
+          tl: {
+            type: Object,
+            notify: true,
+            value: new TimelineLite()
+          },
+          data: {
+            type: Object,
+            notify: true,
+          },
           headline: {
             type: String,
             value: 'Call me Ishmael',
+            notify: true
           },
           subtitle: {
             type: String,
-            value: 'Some years ago - never mind how long precisely...'
+            value: 'Some years ago - never mind how long precisely...',
+            notify: true
           },
           whale: {
             type: String,
             value: './images/bluewhale.svg',
+            notify: true
           },
           paragraph1: {
             type: String,
-            value: "I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation." 
+            value: "I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation.", 
+            notify: true
             },
-            paragraph2: {
+          paragraph2: {
             type: String,
-            value: 'With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.'  
+            value: 'With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.', 
+            notify: true
           },
             ctaText: {
               type: String,
-              value: "BOARD THE PEQUOD"
+              value: "BOARD THE PEQUOD",
+              notify: true
             } 
         }
       });

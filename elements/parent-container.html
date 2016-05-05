@@ -4,31 +4,25 @@
 
       .shadow {
         background: floralWhite;
-        width: 700px;
-        height: 700px;
+        width: 100%;
+        height: 100%;
         -webkit-box-shadow: 0px 4px 13px -1px rgba(0,0,0,0.19);
         -moz-box-shadow: 0px 4px 13px -1px rgba(0,0,0,0.19);
         box-shadow: 0px 4px 13px -1px rgba(0,0,0,0.19);
       }
 
       .parent-container.title {
-        padding-top: 7%;
+        padding: 7%;
         font-size:35px;
         text-align: center;
-      }
-
-      my-tweens{
-        width: 600px;
-        height: 500px;
-        margin: 0 auto;
-        margin-top: 7%;
       }
 
     </style>
 
     <div class="shadow">
       <div class="title">{{title}}</div>
-      <my-tweens></my-tweens>
+      <tween-scrubber data="{{data}}"></tween-scrubber>
+      <my-tweens data="{{data}}"></my-tweens>
     </div>
     </template>
   <script>
@@ -38,13 +32,26 @@
     Polymer({
       is: 'parent-container',
 
+      ready: function(){
+        this.addEventListener("data-changed", this.updateData);
+      },
+
+      updateData: function(e){
+        console.log('PARENT DATA', this.data);
+      },
+
       properties: {
         title: {
           type: String,
           value: 'Parent Container',
           notify: false
-        }
+        },
+        data: {
+          type: Object,
+          notify: true
+        }      
       }
+
     });
   })();
   </script>
