@@ -105,6 +105,9 @@
 
         ready: function(){
 
+          var text = new Polymer.IronMetaQuery({key: 'controls'}).value;
+          this.$$('header').textContent = text;
+
           var tl = new TimelineLite();
           tl.from(this.$$('header'), 1, {left: 10, opacity: 0})
           .from(this.$.subtitle, 0.5, {left: 50, opacity: 0}, "-=0.3")
