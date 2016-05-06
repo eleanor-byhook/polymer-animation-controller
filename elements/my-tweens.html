@@ -86,7 +86,7 @@
     </style>
 
     <div id="container"></div>
-      <header>{{headline}}</header>
+    <header>{{headline}}</header>
       <div id="subtitle">{{subtitle}}</div>
       <img src={{whale}}></img>
       <div id="paragraph1">{{paragraph1}}</div>
@@ -104,33 +104,38 @@
         is: 'my-tweens',
 
         ready: function(){
-          this.addEventListener("data-changed", this.sendAMessage);
+          this.progressValue = 0;
+          this.timeScale = 0;
 
-          this.tl.from(this.$$('header'), 1, {left: 10, opacity: 0})
+          var tl = new TimelineLite({onUpdate:this.updateStats,
+            onUpdateScope:this});
+          tl.from(this.$$('header'), 1, {left: 10, opacity: 0})
           .from(this.$.subtitle, 0.5, {left: 50, opacity: 0}, "-=0.3")
           .from(this.$.paragraph1, 0.2, {y:20, opacity: 0}, 1)
           .from(this.$.paragraph2, 0.2, {x: 40, opacity: 0}, 1.5)
           .from(this.$$('img'), 1, {rotation: 360, opacity: 0}, 1);
         },
-
-        sendAMessage: function(newVal){
-          console.log('MY TWEENS data: ' + JSON.stringify(newVal));
-        },
-
+        
         properties: {
-          tl: {
-            type: Object,
-            notify: true,
-            value: new TimelineLite()
-          },
           data: {
             type: Object,
             notify: true,
+            computed: 'setData(progressValue, timeScale)',
+            observer: 'updateDataObject',
           },
+          timeScale: {
+            type: Number,
+            notify: true,
+          },
+          progressValue: {
+            type: Number,
+            notify: true,
+          },
+
           headline: {
             type: String,
             value: 'Call me Ishmael',
-            notify: true
+            notify: true,
           },
           subtitle: {
             type: String,
@@ -157,7 +162,24 @@
               value: "BOARD THE PEQUOD",
               notify: true
             } 
+        },
+
+        updateStats: function(){
+          this.progressValue += 0.01709;
+        },
+
+        updateDataObject: function(newVal, oldVal){
+          this.progressValue = newVal.progressValue;
+          this.timeScale = newVal.timeScale;
+        },
+
+        setData: function(prog, time){
+          return {
+            progressValue: prog,
+            timeScale: time
+          }
         }
+
       });
     })();
   </script> 

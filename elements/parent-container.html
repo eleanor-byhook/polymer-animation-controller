@@ -33,7 +33,6 @@
       is: 'parent-container',
 
       ready: function(){
-        this.addEventListener("data-changed", this.updateData);
       },
 
       updateData: function(e){
@@ -48,8 +47,13 @@
         },
         data: {
           type: Object,
-          notify: true
+          notify: true,
+          observer: 'broadcastChange',
         }      
+      },
+
+      broadcastChange: function(newVal, oldVal){
+        console.log('PARENT BROADCAST: ' + JSON.stringify(this.data));
       }
 
     });

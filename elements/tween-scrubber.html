@@ -117,38 +117,35 @@
         },
 
         updateProgressSlider: function(e) {
-          this.data.progressValue = e.target.immediateValue;
-          this.updateData(e.target.immediateValue, this.data.timeScale);
+          this.progressValue = e.target.immediateValue;
         },
 
         updateTimeScale: function(e) {
-          this.data.timeScale = e.target.immediateValue;
-          this.updateData(this.data.progressValue, e.target.immediateValue);
+          this.timeScale = e.target.immediateValue;
         },
 
 
         ready: function(){
           CSSPlugin.defaultTransformPerspective = 400;
-          this.addEventListener("data-changed", this.updateData);
-
+          this.progressValue = 0;
+          this.timeScale = 1;
         },
 
         properties: {
           progressValue: {
             type: Number,
-            value: 0,
             notify: true,
           },
           timeScale: {
             type: Number,
-            value: 1,
             notify: true,
           },
 
           data: {
             type: Object,
             notify: true,
-            computed: 'updateData(progressValue, timeScale)'
+            computed: 'setData(progressValue, timeScale)',
+            observer: 'setDataObject',
           },
           progressPercent: {
             type: Number,
@@ -160,14 +157,21 @@
           }
         },
 
-        percentify: function(val) {
-          return Math.floor(val * 100) +'%';
-        },
-        updateData: function(prog, time){
+        setData: function(prog, time){
           return {
             progressValue: prog, 
             timeScale: time
           }
+        },
+
+        setDataObject: function(newValue, oldValue){
+          console.log('CONTROLLER data: ' + JSON.stringify(this.data));
+          this.progressValue = newValue.progressValue;
+          this.timeScale = newValue.timeScale;
+        },
+
+        percentify: function(val) {
+          return Math.floor(val * 100) +'%';
         },
 
       });
