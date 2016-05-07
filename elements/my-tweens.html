@@ -1,4 +1,4 @@
-<dom-module id="my-tweens" is="dom-bind">
+<dom-module id="my-tweens">
 
 <template>
 
@@ -105,11 +105,11 @@
 
         ready: function(){
           this.progressValue = 0;
-          this.timeScale = 0;
+          this.timeScale = 1;
 
-          var tl = new TimelineLite({onUpdate:this.updateStats,
-            onUpdateScope:this});
-          tl.from(this.$$('header'), 1, {left: 10, opacity: 0})
+          this.tl = new TimelineLite({onUpdate:this.updateStats, onUpdateScope:this});
+
+          this.tl.from(this.$$('header'), 1, {left: 10, opacity: 0})
           .from(this.$.subtitle, 0.5, {left: 50, opacity: 0}, "-=0.3")
           .from(this.$.paragraph1, 0.2, {y:20, opacity: 0}, 1)
           .from(this.$.paragraph2, 0.2, {x: 40, opacity: 0}, 1.5)
@@ -117,11 +117,17 @@
         },
         
         properties: {
-          data: {
+          tl: {
+            type: Object
+          },
+          data2: {
             type: Object,
             notify: true,
+            //setting computed on a property makes it implicitly read-only
+            //so right now, tweens are controlling the controller
+            //need to remove 'computed' to enable controller to control tweens
             computed: 'setData(progressValue, timeScale)',
-            observer: 'updateDataObject',
+            observer: 'updateDataObject'
           },
           timeScale: {
             type: Number,
@@ -165,7 +171,7 @@
         },
 
         updateStats: function(){
-          this.progressValue += 0.01709;
+          this.progressValue = this.progressValue + (0.01709 / this.tl.duration()); 
         },
 
         updateDataObject: function(newVal, oldVal){

@@ -21,10 +21,14 @@
 
     <div class="shadow">
       <div class="title">{{title}}</div>
-      <tween-scrubber data="{{data}}"></tween-scrubber>
-      <my-tweens data="{{data}}"></my-tweens>
+
+      <tween-scrubber data1="{{data}}"></tween-scrubber>
+      <my-tweens data2="{{data}}"></my-tweens>
+
     </div>
-    </template>
+
+  </template>
+
   <script>
   (function() {
     'use strict';
@@ -35,26 +39,21 @@
       ready: function(){
       },
 
-      updateData: function(e){
-        console.log('PARENT DATA', this.data);
-      },
-
       properties: {
         title: {
           type: String,
           value: 'Parent Container',
-          notify: false
         },
         data: {
           type: Object,
-          notify: true,
-          observer: 'broadcastChange',
+          observer: 'updateData',
+          value: function(){ return {};}
         }      
       },
 
-      broadcastChange: function(newVal, oldVal){
-        console.log('PARENT BROADCAST: ' + JSON.stringify(this.data));
-      }
+      updateData: function(newVal, oldVal){
+        //console.log('PARENT update', this.data);
+      },
 
     });
   })();

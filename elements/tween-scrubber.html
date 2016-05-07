@@ -1,6 +1,6 @@
-<dom-module id="tween-scrubber" is="dom-bind">
+<dom-module id="tween-scrubber" >
 
-<template>
+ <template>
 
     <style>
 
@@ -37,7 +37,6 @@
       }
 
       #progressSlider {
-        width: 350px;
         min: 0;
         max: 100;
         step: 1;
@@ -84,8 +83,8 @@
     <div class="sliderValues">time: <span
         id="time"></span>s / progress: <span id="progress">{{progressPercent}}</span>
 
-    <paper-slider pin min="0" max="1" value="{{progressValue}}" step="0.001" class="slider" id="progressSlider"></paper-slider>
-    <div>{{data.time}}</div>
+    <paper-slider pin min="0" max="1" value="{{progressValue::change}}" step="0.001" class="slider" id="progressSlider"></paper-slider>
+    <div>{{progressValue::change}}</div>
     </div>
     <button id="playBtn">play()</button>
     <button id="pauseBtn">pause()</button>
@@ -94,7 +93,7 @@
     <button id="restartBtn">restart()</button>
 
     <div style="text-align:left; width:420px; margin:auto">
-      <paper-slider pin min="0.25" max="4" value="{{timeScale}}" step="0.25" class="slider" id="timeScaleSlider"></paper-slider>
+      <paper-slider pin min="0.25" max="4" value="{{timeScale::change}}" step="0.25" class="slider" id="timeScaleSlider"></paper-slider>
       </div>
       <div class="sliderValues" style="display:inline-block">timeScale: <span
           id="timeScale">{{timeScale}}</span>
@@ -110,20 +109,6 @@
 
       Polymer({
         is: 'tween-scrubber',
-
-        listeners: {
-          'progressSlider.change' : 'updateProgressSlider',
-          'timeScaleSlider.change' : 'updateTimeScale',
-        },
-
-        updateProgressSlider: function(e) {
-          this.progressValue = e.target.immediateValue;
-        },
-
-        updateTimeScale: function(e) {
-          this.timeScale = e.target.immediateValue;
-        },
-
 
         ready: function(){
           CSSPlugin.defaultTransformPerspective = 400;
@@ -141,11 +126,16 @@
             notify: true,
           },
 
-          data: {
+          data1: {
             type: Object,
             notify: true,
-            computed: 'setData(progressValue, timeScale)',
             observer: 'setDataObject',
+            value: function(){
+              return{
+                progressValue: this.progressValue,
+                timeScale: this.timeScale
+              }
+            }
           },
           progressPercent: {
             type: Number,
@@ -165,7 +155,7 @@
         },
 
         setDataObject: function(newValue, oldValue){
-          console.log('CONTROLLER data: ' + JSON.stringify(this.data));
+          console.log('CONTROLLER data: ' + JSON.stringify(this.data1));
           this.progressValue = newValue.progressValue;
           this.timeScale = newValue.timeScale;
         },
