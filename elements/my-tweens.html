@@ -21,7 +21,7 @@
       img {
         position: relative;
         top: 30%;
-        left: 5%;
+        left: 10px;
         width: 150px;
         height: 150px;
         -moz-transform: scaleX(-1);
@@ -33,13 +33,9 @@
       }
     </style>
 
-     <template is="dom-if" if="{{!go}}">
-      <img src={{}}></img>
-    </template>
 
-   <template is="dom-if" if="{{go}}">
-      <img src={{whale}}></img>
-    </template>
+      <img id="movingWhale" src={{whale}}></img>
+
 
   </template>
 
@@ -51,13 +47,9 @@
       Polymer({
         is: 'my-tweens',
 
-        ready: function(){
-        },
-        
         properties: {
           tl: {
             type: Object,
-            value: new TimelineLite()
           },
           go: {
             type: Boolean,
@@ -70,21 +62,22 @@
           },
         },
 
-        updateStats: function(){
-          this.progressValue = this.progressValue + (0.01709 / this.tl.duration()); 
+        attributeChanged: function(){
+          //if(this.go){
+
+                this.tl = new TimelineMax({delay:0.25});
+                this.tl.add( new TweenLite.to( '#movingWhale', 1, {x: '901px'}), 0);
+                this.tl.play();
+            //} else {
+            //console.log('no go');
+          //}
         },
 
-        updateDataObject: function(newVal, oldVal){
-          this.progressValue = newVal.progressValue;
-          this.timeScale = newVal.timeScale;
-        },
+        ready: function(){
+        //  this.tl = new TimelineLite();
+         // this.tl.from(this.$$('img'), 1, {rotation: 360});
 
-        setData: function(prog, time){
-          return {
-            progressValue: prog,
-            timeScale: time
-          }
-        }
+        },
 
       });
     })();
