@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html
 <html>
   <head>
     <title>omg</title>
@@ -7,8 +7,12 @@
     <script src="bower_components/gsap/src/uncompressed/TweenMax.js"></script>
     <script src="utils/AddRemoveClass.js"></script>
     <link rel="import" href="bower_components/polymer/polymer.html">
-    <link rel="import" href="elements/hook-button.html">
-    <link rel="import" href="elements/hook-panel.html">
+    <link rel="import" href="bower_components/paper-slider/paper-slider.html">
+    <link rel="import" href="elements/parent-container.html">
+    <link rel="import" href="elements/my-tweens.html">
+    <link rel="import" href="elements/play-button.html">
+    <link rel="import" href="elements/reverse-button.html">
+    <link rel="import" href="elements/reset-button.html">
     <style>
       *{
         white-space: nowrap;
@@ -17,11 +21,13 @@
       body{
         margin: 0;
         font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
-        font-weightL bold;
+        font-weight: bold;
       }
     </style>
   </head>
   <body>
-    <hook-panel></hook-panel>
+
+    <parent-container></parent-container>
+
   </body>
 </html>

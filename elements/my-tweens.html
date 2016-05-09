@@ -1,0 +1,102 @@
+<dom-module id="my-tweens">
+
+<template>
+
+    <style>
+
+      :host {
+        display: block;
+        height: 300px;
+        width: 900px;
+        cursor: pointer;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: white;
+        border: 1px solid black;
+      }
+
+      img {
+        position: relative;
+        top: 30%;
+        left: 10px;
+        width: 150px;
+        height: 150px;
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+      }
+    </style>
+
+
+      <img id="whale" src={{whale}}></img>
+
+
+  </template>
+
+  <script>
+
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'my-tweens',
+
+        properties: {
+          tl: {
+            type: Object,
+          },
+          play: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          reverse: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          reset: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+         whale: {
+            type: String,
+            value: './images/bluewhale.svg',
+            notify: true
+          },
+        },
+
+        attributeChanged: function(name, type){
+          switch(name){
+            case 'play':
+              this.tl = new TimelineMax({delay:0.25});
+              this.tl.add( new TweenLite.to( '#whale', 1, {x: '701px'}), 0);
+              this.tl.play();
+              break;
+            case 'reset': 
+              this.tl.seek(0);
+              this.tl.reverse();
+              break;
+            case 'reverse':
+              this.tl.reverse();
+              break;
+            default:
+              break;
+            }
+        },
+
+        ready: function(){
+        //  this.tl = new TimelineLite();
+         // this.tl.from(this.$$('img'), 1, {rotation: 360});
+
+        },
+
+      });
+    })();
+  </script> 
+
+</dom-module>

@@ -1,0 +1,39 @@
+<dom-module id="reverse-button" >
+
+ <template>
+
+    <style>
+
+      :host {
+        z-index: 1000;
+      }
+
+      button {
+        padding:1rem;
+        margin:20px;
+        font-size:12px;
+        cursor:pointer;
+      }
+
+    </style>
+    <button id="button">Reverse</button>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'reverse-button',
+
+        properties: {
+          reverse: {
+            type: Boolean,
+            reflectToAttribute: true
+          }        
+        },
+      });
+    })();
+  </script> 
+
+</dom-module>

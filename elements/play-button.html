@@ -1,0 +1,42 @@
+<dom-module id="play-button" >
+
+ <template>
+
+    <style>
+
+      :host {
+        background-color: white;
+        color: black;
+        z-index: 1000;
+      }
+
+      button {
+        padding:1rem;
+        margin:20px;
+        font-size:12px;
+        cursor:pointer;
+      }
+
+    </style>
+    <button id="button">Play</button>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'play-button',
+
+        properties: {
+          play: {
+            type: Boolean,
+            reflectToAttribute: true
+          }        
+
+      }
+      });
+    })();
+  </script> 
+
+</dom-module>
