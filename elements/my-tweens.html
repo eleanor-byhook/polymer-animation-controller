@@ -34,7 +34,7 @@
     </style>
 
 
-      <img id="movingWhale" src={{whale}}></img>
+      <img id="whale" src={{whale}}></img>
 
 
   </template>
@@ -63,14 +63,14 @@
         },
 
         attributeChanged: function(){
-          //if(this.go){
-
-                this.tl = new TimelineMax({delay:0.25});
-                this.tl.add( new TweenLite.to( '#movingWhale', 1, {x: '901px'}), 0);
-                this.tl.play();
-            //} else {
-            //console.log('no go');
-          //}
+          if(this.go){
+            this.tl = new TimelineMax({delay:0.25});
+            this.tl.add( new TweenLite.to( '#whale', 1, {x: '701px'}), 0);
+            this.tl.play();
+          } else {
+          this.tl.seek(0);
+          this.tl.reverse();
+          }
         },
 
         ready: function(){

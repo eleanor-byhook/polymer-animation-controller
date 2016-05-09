@@ -29,7 +29,7 @@
       }
 
     </style>
-    <button id="button">Move!</button>
+    <button id="button">{{buttonText}}</button>
   </template>
 
   <script>
@@ -40,9 +40,27 @@
         is: 'controller-button',
 
         ready: function(){
+          console.log(this.go);
+        },
+
+        setButtonText: function(){
+          if(this.go){
+            return 'Reset' 
+          } else {
+            return 'Play'
+          }
         },
 
         properties: {
+          go: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          buttonText: {
+            type: String,
+            reflectToAttribute: true,
+            computed: 'setButtonText(go)'
+          }
         },
       });
     })();

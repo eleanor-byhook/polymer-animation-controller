@@ -22,7 +22,7 @@
     <div class="shadow">
       <div class="title">{{title}}</div>
 
-      <controller-button on-tap="_toggle"></controller-button>
+      <controller-button on-tap="_toggle" go="{{alt}}"></controller-button>
       <my-tweens go="{{alt}}"></my-tweens>
 
     </div>
@@ -55,11 +55,6 @@
         }
 
       },
-
-      updateData: function(newVal, oldVal){
-        //console.log('PARENT update', this.data);
-      },
-
     });
   })();
   </script>
