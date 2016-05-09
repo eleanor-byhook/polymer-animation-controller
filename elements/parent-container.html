@@ -26,14 +26,21 @@
         background-color: white;
         border: 1px solid gray;
       }
+
+      button {
+        padding: 1rem;
+        margin: 20px;
+        font-size: 12px;
+        cursor: pointer;
+      }
     </style>
 
     <div class="shadow">
       <div class="title">{{title}}</div>
       <div id="buttonContainer">
-        <reverse-button on-tap="_reverse" reverse="{{reverse}}"></reverse-button>
-        <play-button on-tap="_togglePlay" play="{{play}}"></play-button>
-        <reset-button on-tap="_reset" reset="{{reset}}"></reset-button>
+        <button on-tap="_reverse" reverse="{{reverse}}">Reverse</button>
+        <button on-tap="_togglePlay" play="{{play}}">Play</button>
+        <button on-tap="_reset" reset="{{reset}}">Reset</button>
       </div>
 
       <my-tweens reset="{{reset}}" reverse="{{reverse}}" play="{{play}}"></my-tweens>
