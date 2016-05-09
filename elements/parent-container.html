@@ -22,8 +22,8 @@
     <div class="shadow">
       <div class="title">{{title}}</div>
 
-      <tween-scrubber data1="{{data}}"></tween-scrubber>
-      <my-tweens data2="{{data}}"></my-tweens>
+      <controller-button on-tap="_toggle"></controller-button>
+      <my-tweens go="{{alt}}"></my-tweens>
 
     </div>
 
@@ -39,16 +39,21 @@
       ready: function(){
       },
 
+      _toggle: function(){
+        this.alt = !this.alt;
+      },
+
       properties: {
         title: {
           type: String,
           value: 'Parent Container',
         },
-        data: {
-          type: Object,
-          observer: 'updateData',
-          value: function(){ return {};}
-        }      
+        alt: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true     
+        }
+
       },
 
       updateData: function(newVal, oldVal){

@@ -6,8 +6,8 @@
 
       :host {
         display: block;
-        height: 500px;
-        width: 600px;
+        height: 300px;
+        width: 900px;
         cursor: pointer;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -18,81 +18,29 @@
         border: 1px solid black;
       }
 
-      header {
-        position: relative;
-        top: 20px;
-        left: 20px;
-        font-size: 44px;
-      }
-
-      #subtitle {
-        position: relative;
-        top: 30px;
-        left: 20px;
-        font-size: 24px;
-        font-style: oblique;
-      
-      }
       img {
         position: relative;
-        top: 37px;
-        left: 20px;
+        top: 30%;
+        left: 5%;
         width: 150px;
         height: 150px;
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
       }
-
-      #paragraph1 {
-        position: relative;
-        bottom: 65px;
-        left: 196px;
-        width: 367px;
-        font-size: 18px;
-        text-align: justify;
-        white-space: normal;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-
-      #paragraph2 {
-        position: relative;
-        bottom: 32px;
-        left: 196px;
-        width: 367px;
-        font-size: 18px;
-        text-align: justify;
-        white-space: normal;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-
-      button {
-        position: relative;
-        width: auto;
-        height: 32px;
-        bottom: 10px;
-        float: right;
-        margin-right: 34px;
-        padding-left: 10px;
-        padding-right: 10px;
-        background-color: rgb(111, 171, 241); 
-        border: 2px solid rgb(111, 171, 241);
-        color: white;
-        font-size: 14px;
-        font-weight: 400;
-        text-align: center;
-        cursor: pointer;
-      }
-
     </style>
 
-    <div id="container"></div>
-    <header>{{headline}}</header>
-      <div id="subtitle">{{subtitle}}</div>
+     <template is="dom-if" if="{{!go}}">
+      <img src={{}}></img>
+    </template>
+
+   <template is="dom-if" if="{{go}}">
       <img src={{whale}}></img>
-      <div id="paragraph1">{{paragraph1}}</div>
-      <div id="paragraph2">{{paragraph2}}</div>
-      <button>{{ctaText}}</button>
-    </div>
+    </template>
+
   </template>
 
   <script>
@@ -104,70 +52,22 @@
         is: 'my-tweens',
 
         ready: function(){
-          this.progressValue = 0;
-          this.timeScale = 1;
-
-          this.tl = new TimelineLite({onUpdate:this.updateStats, onUpdateScope:this});
-
-          this.tl.from(this.$$('header'), 1, {left: 10, opacity: 0})
-          .from(this.$.subtitle, 0.5, {left: 50, opacity: 0}, "-=0.3")
-          .from(this.$.paragraph1, 0.2, {y:20, opacity: 0}, 1)
-          .from(this.$.paragraph2, 0.2, {x: 40, opacity: 0}, 1.5)
-          .from(this.$$('img'), 1, {rotation: 360, opacity: 0}, 1);
         },
         
         properties: {
           tl: {
-            type: Object
-          },
-          data2: {
             type: Object,
-            notify: true,
-            //setting computed on a property makes it implicitly read-only
-            //so right now, tweens are controlling the controller
-            //need to remove 'computed' to enable controller to control tweens
-            computed: 'setData(progressValue, timeScale)',
-            observer: 'updateDataObject'
+            value: new TimelineLite()
           },
-          timeScale: {
-            type: Number,
-            notify: true,
+          go: {
+            type: Boolean,
+            reflectToAttribute: true
           },
-          progressValue: {
-            type: Number,
-            notify: true,
-          },
-
-          headline: {
-            type: String,
-            value: 'Call me Ishmael',
-            notify: true,
-          },
-          subtitle: {
-            type: String,
-            value: 'Some years ago - never mind how long precisely...',
-            notify: true
-          },
-          whale: {
+         whale: {
             type: String,
             value: './images/bluewhale.svg',
             notify: true
           },
-          paragraph1: {
-            type: String,
-            value: "I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation.", 
-            notify: true
-            },
-          paragraph2: {
-            type: String,
-            value: 'With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.', 
-            notify: true
-          },
-            ctaText: {
-              type: String,
-              value: "BOARD THE PEQUOD",
-              notify: true
-            } 
         },
 
         updateStats: function(){

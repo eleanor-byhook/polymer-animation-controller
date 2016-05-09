@@ -1,0 +1,51 @@
+<dom-module id="controller-button" >
+
+ <template>
+
+    <style>
+
+      :host {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 140px;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: center;
+        background-color: white;
+        color: black;
+        border: 1px solid gray;
+        z-index: 1000;
+      }
+
+      button {
+        padding:1rem;
+        margin:20px;
+        font-size:12px;
+        cursor:pointer;
+      }
+
+    </style>
+    <button id="button">Move!</button>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'controller-button',
+
+        ready: function(){
+        },
+
+        properties: {
+        },
+      });
+    })();
+  </script> 
+
+</dom-module>
