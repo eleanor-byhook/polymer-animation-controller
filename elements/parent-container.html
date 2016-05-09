@@ -16,14 +16,27 @@
         font-size:35px;
         text-align: center;
       }
-
+      #buttonContainer {
+        display: flex;
+        justify-content: space-around;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: auto;
+        background-color: white;
+        border: 1px solid gray;
+      }
     </style>
 
     <div class="shadow">
       <div class="title">{{title}}</div>
+      <div id="buttonContainer">
+        <reverse-button on-tap="_reverse" reverse="{{reverse}}"></reverse-button>
+        <play-button on-tap="_togglePlay" play="{{play}}"></play-button>
+        <reset-button on-tap="_reset" reset="{{reset}}"></reset-button>
+      </div>
 
-      <controller-button on-tap="_toggle" go="{{alt}}"></controller-button>
-      <my-tweens go="{{alt}}"></my-tweens>
+      <my-tweens reset="{{reset}}" reverse="{{reverse}}" play="{{play}}"></my-tweens>
 
     </div>
 
@@ -39,8 +52,16 @@
       ready: function(){
       },
 
-      _toggle: function(){
-        this.alt = !this.alt;
+       _reset: function() {
+        this.reset = !this.reset;
+      },
+
+      _reverse: function() {
+        this.reverse = !this.reverse;
+      },
+
+      _togglePlay: function(){
+        this.play = !this.play;
       },
 
       properties: {
@@ -48,7 +69,17 @@
           type: String,
           value: 'Parent Container',
         },
-        alt: {
+        reset: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+        reverse: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+        play: {
           type: Boolean,
           value: false,
           reflectToAttribute: true     

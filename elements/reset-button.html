@@ -1,0 +1,39 @@
+<dom-module id="reset-button" >
+
+ <template>
+
+    <style>
+
+      :host {
+        z-index: 1000;
+      }
+
+      button {
+        padding:1rem;
+        margin:20px;
+        font-size:12px;
+        cursor:pointer;
+      }
+
+    </style>
+    <button id="button">Reset</button>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'reset-button',
+
+        properties: {
+          reset: {
+            type: Boolean,
+            reflectToAttribute: true
+          }        
+        },
+      });
+    })();
+  </script> 
+
+</dom-module>

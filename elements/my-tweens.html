@@ -51,7 +51,15 @@
           tl: {
             type: Object,
           },
-          go: {
+          play: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          reverse: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          reset: {
             type: Boolean,
             reflectToAttribute: true
           },
@@ -62,15 +70,23 @@
           },
         },
 
-        attributeChanged: function(){
-          if(this.go){
-            this.tl = new TimelineMax({delay:0.25});
-            this.tl.add( new TweenLite.to( '#whale', 1, {x: '701px'}), 0);
-            this.tl.play();
-          } else {
-          this.tl.seek(0);
-          this.tl.reverse();
-          }
+        attributeChanged: function(name, type){
+          switch(name){
+            case 'play':
+              this.tl = new TimelineMax({delay:0.25});
+              this.tl.add( new TweenLite.to( '#whale', 1, {x: '701px'}), 0);
+              this.tl.play();
+              break;
+            case 'reset': 
+              this.tl.seek(0);
+              this.tl.reverse();
+              break;
+            case 'reverse':
+              this.tl.reverse();
+              break;
+            default:
+              break;
+            }
         },
 
         ready: function(){
