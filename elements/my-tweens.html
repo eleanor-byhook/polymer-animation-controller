@@ -1,7 +1,5 @@
 <dom-module id="my-tweens">
-
 <template>
-
     <style>
 
       :host {
@@ -33,9 +31,7 @@
       }
     </style>
 
-
-      <img id="whale" src={{whale}}></img>
-
+    <img id="whale" src={{whale}}></img>
 
   </template>
 
@@ -47,58 +43,22 @@
       Polymer({
         is: 'my-tweens',
 
+        ready: function() {
+          this.timeline.add( new TweenLite.to( this.$$('#whale'), 1, {x: '701px'}), 0);
+          console.log(this.timeline);
+        },
+
         properties: {
-          tl: {
-            type: Object,
-            value: new TimelineMax({delay:0.25})
-          },
-          play: {
-            type: Boolean,
-            reflectToAttribute: true
-          },
-          reverse: {
-            type: Boolean,
-            reflectToAttribute: true
-          },
-          reset: {
-            type: Boolean,
-            reflectToAttribute: true
-          },
-          data: {
+          timeline: {
             type: Object,
             reflectToAttribute: true
           },
-         whale: {
+          whale: {
             type: String,
             value: './images/bluewhale.svg',
             notify: true
           },
         },
-
-        attributeChanged: function(name, type){
-          switch(name){
-            case 'play':
-              this.tl.add( new TweenLite.to( '#whale', 1, {x: '701px'}), 0);
-              this.tl.play();
-              break;
-            case 'reset': 
-              this.tl.seek(0);
-              this.tl.reverse();
-              break;
-            case 'reverse':
-              this.tl.reverse();
-              break;
-            default:
-              break;
-            }
-        },
-
-        ready: function(){
-        //  this.tl = new TimelineLite();
-         // this.tl.from(this.$$('img'), 1, {rotation: 360});
-
-        },
-
       });
     })();
   </script> 

@@ -38,12 +38,12 @@
     <div class="shadow">
       <div class="title">{{title}}</div>
       <div id="buttonContainer">
-        <button on-tap="_reverse">Reverse</button>
-        <button on-tap="_togglePlay">Play</button>
-        <button on-tap="_reset">Reset</button>
+        <button id="reverse">Reverse</button>
+        <button id="play">Play</button>
+        <button id="reset">Reset</button>
       </div>
 
-      <my-tweens reset="{{reset}}" reverse="{{reverse}}" play="{{play}}"></my-tweens>
+      <my-tweens timeline="{{timeline}}"></my-tweens>
 
     </div>
 
@@ -56,43 +56,41 @@
     Polymer({
       is: 'parent-container',
 
-      ready: function(){
+      ready: function() {
+        this.timeline.pause();
       },
 
-       _reset: function() {
-        this.reset = !this.reset;
+      listeners: {
+        'reverse.tap' : '_reverse',
+        'play.tap' : '_play',
+        'reset.tap' : '_reset'
+      },
+
+      _reset: function() {
+         this.timeline.seek(0);
+         this.timeline.reverse();
       },
 
       _reverse: function() {
-        this.reverse = !this.reverse;
+        this.timeline.reverse();
       },
 
-      _togglePlay: function(){
-        this.play = !this.play;
+      _play: function(){
+        this.timeline.play();
       },
 
       properties: {
+        timeline: {
+          type: Object,
+          value: new TimelineMax({delay: 0.25})
+        },
         title: {
           type: String,
           value: 'Parent Container',
-        },
-        reset: {
-          type: Boolean,
-          value: false,
           reflectToAttribute: true
-        },
-        reverse: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true
-        },
-        play: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true     
         }
+      }
 
-      },
     });
   })();
   </script>
