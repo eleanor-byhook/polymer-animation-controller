@@ -9,31 +9,34 @@
         bottom: 30px;
         right: 30px;
         width: auto;
-        padding-top: 20px;
+        padding: 20px 15px;
         background-color: white;
         border: 1px solid gray;
       }
 
-      .control-panel.title {
+      .title {
         display: block;
         font-size:12px;
         text-align: center;
       }
 
+      paper-slider {
+        width: 100%;
+      }
+
       #buttonContainer {
-        display: flex;
-        justify-content: space-around;
       }
 
       button {
         padding: 1rem;
-        margin: 20px;
+        margin: 15px;
         font-size: 12px;
         cursor: pointer;
       }
     </style>
 
       <div class="title">{{timeline.name}}</div>
+      <paper-slider pin min="0" max="100" step="1" value="{{timeline.progress::change}}"></paper-slider>
       <div class="buttonContainer">
         <button id="reverse">Reverse</button>
         <button id="play">Play</button>
