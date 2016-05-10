@@ -50,6 +50,7 @@
         properties: {
           tl: {
             type: Object,
+            value: new TimelineMax({delay:0.25})
           },
           play: {
             type: Boolean,
@@ -63,6 +64,10 @@
             type: Boolean,
             reflectToAttribute: true
           },
+          data: {
+            type: Object,
+            reflectToAttribute: true
+          },
          whale: {
             type: String,
             value: './images/bluewhale.svg',
@@ -73,7 +78,6 @@
         attributeChanged: function(name, type){
           switch(name){
             case 'play':
-              this.tl = new TimelineMax({delay:0.25});
               this.tl.add( new TweenLite.to( '#whale', 1, {x: '701px'}), 0);
               this.tl.play();
               break;
