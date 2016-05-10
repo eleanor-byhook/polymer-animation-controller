@@ -32,6 +32,7 @@
     </style>
 
     <img id="whale" src={{whale}}></img>
+    <control-panel timeline="{{timeline}}"></control-panel>
 
   </template>
 
@@ -44,14 +45,17 @@
         is: 'my-tweens',
 
         ready: function() {
+          this.timeline = new TimelineMax({repeat: -1});
           this.timeline.add( new TweenLite.to( this.$$('#whale'), 1, {x: '701px'}), 0);
+          this.timeline.name = "whale timeline";
+          this.notifyPath('timeline.name', this.timeline.name);
           console.log(this.timeline);
         },
 
         properties: {
           timeline: {
             type: Object,
-            reflectToAttribute: true
+            notify: true
           },
           whale: {
             type: String,
