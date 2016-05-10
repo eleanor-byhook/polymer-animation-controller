@@ -53,7 +53,7 @@
 
         updateSlider: function(){
 //          console.log(this.timeline);
-          this.percentComplete = ((1 - (this.timeline.duration() - this.timeline.time())).toFixed(2) * 100);
+          this.percentComplete = Math.round(100 * (1 - (this.timeline.duration() - this.timeline.time())));
           this.notifyPath('timeline.progress', this.percentComplete);
         },
 

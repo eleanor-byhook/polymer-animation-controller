@@ -15,9 +15,17 @@
       }
 
       .title {
-        display: block;
+        display: flex;
         font-size:12px;
-        text-align: center;
+        margin: 5px;
+        justify-content: space-around;
+      }
+
+      .timelineName {
+      }
+
+      .progressPercent {
+        width: 85px;
       }
 
       paper-slider {
@@ -35,7 +43,10 @@
       }
     </style>
 
-      <div class="title">{{timeline.name}}</div>
+    <div class="title">
+      <div class="timelineName">{{timeline.name}}</div>
+      <div class="progressPercent">{{timeline.progress}}% complete</div>
+    </div>
       <paper-slider pin min="0" max="100" step="1" value="{{timeline.progress::change}}"></paper-slider>
       <div class="buttonContainer">
         <button id="reverse">Reverse</button>
