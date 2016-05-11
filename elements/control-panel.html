@@ -9,31 +9,45 @@
         bottom: 30px;
         right: 30px;
         width: auto;
-        padding-top: 20px;
+        padding: 20px 15px;
         background-color: white;
         border: 1px solid gray;
       }
 
-      .control-panel.title {
-        display: block;
+      .title {
+        display: flex;
         font-size:12px;
-        text-align: center;
+        margin: 5px;
+        justify-content: space-around;
+      }
+
+      .timelineName {
+      }
+
+      .progressPercent {
+        width: 85px;
+      }
+
+      paper-slider {
+        width: 100%;
       }
 
       #buttonContainer {
-        display: flex;
-        justify-content: space-around;
       }
 
       button {
         padding: 1rem;
-        margin: 20px;
+        margin: 15px;
         font-size: 12px;
         cursor: pointer;
       }
     </style>
 
-      <div class="title">{{timeline.name}}</div>
+    <div class="title">
+      <div class="timelineName">{{timeline.name}}</div>
+      <div class="progressPercent">{{timeline.progress}}% complete</div>
+    </div>
+      <paper-slider id="progressSlider" pin min="0" max="100" step="1" value="{{timeline.progress}}"></paper-slider>
       <div class="buttonContainer">
         <button id="reverse">Reverse</button>
         <button id="play">Play</button>
@@ -54,10 +68,18 @@
       },
 
       listeners: {
+        'progressSlider.immediate-value-change' : '_updateProgress',
         'reverse.tap' : '_reverse',
         'play.tap' : '_play',
         'pause.tap' : '_pause',
         'reset.tap' : '_reset'
+      },
+
+      _updateProgress: function(){
+
+        var value = this.$$('#progressSlider').immediateValue;
+        this.timeline.seek(value/100);
+        this.timeline.pause();
       },
 
       _reset: function() {
