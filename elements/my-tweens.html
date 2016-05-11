@@ -49,6 +49,8 @@
           this.timeline.add( new TweenLite.to( this.$$('#whale'), 1, {x: '701px'}), 0);
           this.timeline.name = "whale timeline";
           this.notifyPath('timeline.name', this.timeline.name);
+          this.notifyPath('timeline.timeScale', this.timeline.timeScale);
+          console.log(this.timeline.timeScale);
         },
 
         updateSlider: function(){
