@@ -47,7 +47,7 @@
       <div class="timelineName">{{timeline.name}}</div>
       <div class="progressPercent">{{timeline.progress}}% complete</div>
     </div>
-      <paper-slider pin min="0" max="100" step="1" value="{{timeline.progress::change}}"></paper-slider>
+      <paper-slider id="progressSlider" pin min="0" max="100" step="1" value="{{timeline.progress}}"></paper-slider>
       <div class="buttonContainer">
         <button id="reverse">Reverse</button>
         <button id="play">Play</button>
@@ -68,10 +68,18 @@
       },
 
       listeners: {
+        'progressSlider.immediate-value-change' : '_updateProgress',
         'reverse.tap' : '_reverse',
         'play.tap' : '_play',
         'pause.tap' : '_pause',
         'reset.tap' : '_reset'
+      },
+
+      _updateProgress: function(){
+
+        var value = this.$$('#progressSlider').immediateValue;
+        this.timeline.seek(value/100);
+        this.timeline.pause();
       },
 
       _reset: function() {
