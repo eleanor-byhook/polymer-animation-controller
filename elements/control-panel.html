@@ -22,9 +22,12 @@
 
       p {
         font-size: 14px;
-      }
+        width: 120px;
+        text-align: center;
+      }      
 
       .timelineName {
+        text-transform: capitalize;
       }
 
       .progressPercent {
@@ -32,16 +35,25 @@
       }
 
       paper-slider {
+        width: 50%;
+      }
+
+      #progressSlider {
         width: 100%;
       }
 
       #timescaleSlider {
-        width: 50%;
         text-align: center;
       }
 
       #timeScaleContainer {
         display: flex;
+        justify-content: center;
+      }
+
+      #delayContainer {
+        display: flex;
+        justify-content: center;
       }
 
       #buttonContainer {
@@ -67,10 +79,15 @@
         <button id="reset">Reset</button>
       </div>
       <div id="timeScaleContainer">
+      <p>Time Scale: {{timeline._timeScale}}x</p>
       <paper-slider id="timeScaleSlider" pin min="0.25" max="4" step="0.25"
       value="{{timeline._timeScale}}"></paper-slider>
-      <p>Time scale: {{timeline._timeScale}}</p>
     </div>
+    <div id="delayContainer">
+      <p>Repeat Delay: {{timeline._repeatDelay}}s</p>
+      <paper-slider id="delaySlider" pin min="0" max="4" step="0.25" value="{{timeline._repeatDelay}}"></paper-slider>
+    </div>
+
 
   </template>
 
@@ -87,6 +104,8 @@
       listeners: {
         'timeScaleSlider.immediate-value-change' : '_updateTimeScale',
         'timeScaleSlider.change' : '_resumePlaying',
+        'delaySlider.immediate-value-change' : '_updateDelaySlider',
+        'delaySlider.change' : '_resumePlaying',
         'progressSlider.immediate-value-change' : '_updateProgress',
         'reverse.tap' : '_reverse',
         'play.tap' : '_play',
@@ -95,12 +114,17 @@
       },
 
       _updateTimeScale: function(){
-        var newValue = this.$$('#timeScaleSlider').immediateValue;
         this.timeline.pause();
+        var newValue = this.$$('#timeScaleSlider').immediateValue;
         this.timeline._timeScale = newValue;
-        console.log(this.timeline);
       }, 
 
+      _updateDelaySlider: function(){
+        console.log(this.timeline);
+        this.timeline.pause();
+        var newValue = this.$$('#delaySlider').immediateValue;
+        this.timeline._repeatDelay = newValue;
+      }, 
       _resumePlaying: function() {
         this.timeline.resume();
       },

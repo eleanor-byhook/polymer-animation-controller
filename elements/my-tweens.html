@@ -46,11 +46,11 @@
 
         ready: function() {
           this.timeline = new TimelineMax({onUpdateScope: this, onUpdate: this.updateSlider.bind(this), repeat: -1});
+          this.timeline.pause();
           this.timeline.add( new TweenLite.to( this.$$('#whale'), 1, {x: '701px'}), 0);
           this.timeline.name = "whale timeline";
           this.notifyPath('timeline.name', this.timeline.name);
-          this.notifyPath('timeline.timeScale', this.timeline.timeScale);
-          console.log(this.timeline.timeScale);
+        //  this.notifyPath('timeline.timeScale', this.timeline.timeScale);
         },
 
         updateSlider: function(){
