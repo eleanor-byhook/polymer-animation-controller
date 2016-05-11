@@ -50,11 +50,9 @@
           this.timeline.add( new TweenLite.to( this.$$('#whale'), 1, {x: '701px'}), 0);
           this.timeline.name = "whale timeline";
           this.notifyPath('timeline.name', this.timeline.name);
-        //  this.notifyPath('timeline.timeScale', this.timeline.timeScale);
         },
 
         updateSlider: function(){
-//          console.log(this.timeline);
           this.percentComplete = Math.round(100 * (1 - (this.timeline.duration() - this.timeline.time())));
           this.notifyPath('timeline.progress', this.percentComplete);
         },
