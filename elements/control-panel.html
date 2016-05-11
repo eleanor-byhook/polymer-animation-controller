@@ -16,12 +16,18 @@
 
       .title {
         display: flex;
-        font-size:12px;
-        margin: 5px;
+        margin: 0 5px;
         justify-content: space-around;
       }
 
+      p {
+        font-size: 14px;
+        width: 120px;
+        text-align: center;
+      }      
+
       .timelineName {
+        text-transform: capitalize;
       }
 
       .progressPercent {
@@ -29,7 +35,25 @@
       }
 
       paper-slider {
+        width: 50%;
+      }
+
+      #progressSlider {
         width: 100%;
+      }
+
+      #timescaleSlider {
+        text-align: center;
+      }
+
+      #timeScaleContainer {
+        display: flex;
+        justify-content: center;
+      }
+
+      #delayContainer {
+        display: flex;
+        justify-content: center;
       }
 
       #buttonContainer {
@@ -44,8 +68,8 @@
     </style>
 
     <div class="title">
-      <div class="timelineName">{{timeline.name}}</div>
-      <div class="progressPercent">{{timeline.progress}}% complete</div>
+      <p class="timelineName">{{timeline.name}}</p>
+      <p class="progressPercent">{{timeline.progress}}% complete</p>
     </div>
       <paper-slider id="progressSlider" pin min="0" max="100" step="1" value="{{timeline.progress}}"></paper-slider>
       <div class="buttonContainer">
@@ -54,6 +78,16 @@
         <button id="pause">Pause</button>
         <button id="reset">Reset</button>
       </div>
+      <div id="timeScaleContainer">
+      <p>Time Scale: {{timeline._timeScale}}x</p>
+      <paper-slider id="timeScaleSlider" pin min="0.25" max="4" step="0.25"
+      value="{{timeline._timeScale}}"></paper-slider>
+    </div>
+    <div id="delayContainer">
+      <p>Repeat Delay: {{timeline._repeatDelay}}s</p>
+      <paper-slider id="delaySlider" pin min="0" max="4" step="0.25" value="{{timeline._repeatDelay}}"></paper-slider>
+    </div>
+
 
   </template>
 
@@ -68,6 +102,10 @@
       },
 
       listeners: {
+        'timeScaleSlider.immediate-value-change' : '_updateTimeScale',
+        'timeScaleSlider.change' : '_resumePlaying',
+        'delaySlider.immediate-value-change' : '_updateDelaySlider',
+        'delaySlider.change' : '_resumePlaying',
         'progressSlider.immediate-value-change' : '_updateProgress',
         'reverse.tap' : '_reverse',
         'play.tap' : '_play',
@@ -75,10 +113,24 @@
         'reset.tap' : '_reset'
       },
 
-      _updateProgress: function(){
+      _updateTimeScale: function(){
+        this.timeline.pause();
+        var newValue = this.$$('#timeScaleSlider').immediateValue;
+        this.timeline._timeScale = newValue;
+      }, 
 
-        var value = this.$$('#progressSlider').immediateValue;
-        this.timeline.seek(value/100);
+      _updateDelaySlider: function(){
+        this.timeline.pause();
+        var newValue = this.$$('#delaySlider').immediateValue;
+        this.timeline._repeatDelay = newValue;
+      }, 
+      _resumePlaying: function() {
+        this.timeline.resume();
+      },
+
+      _updateProgress: function(){
+        var newValue = this.$$('#progressSlider').immediateValue;
+        this.timeline.seek(newValue/100);
         this.timeline.pause();
       },
 
