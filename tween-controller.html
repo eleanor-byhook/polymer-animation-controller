@@ -1,11 +1,11 @@
 <!--
-`control-panel` is a reusable custom polymer element that allows you to control
+`tween-controller` is a reusable custom polymer element that allows you to control
 another polymer element that animates solely using greensock's TimelineLite or
 TimelineMax object. 
 
 To use:
 
-1. Add a `<control-panel timeline="{{timeline}}"></control-panel>` tag 
+1. Add a `<tween-controller timeline="{{timeline}}"></tween-controller>` tag 
 inside the template of the the tweening element.  
 
 2. The parent tweening component must also declare the instance of timeline as
@@ -34,12 +34,12 @@ a property, e.g.:
 constructor of the timeline object includes a `{ repeat: -1 }` value, as shown
 in step 3 above.
 
-@element control-panel
+@element tween-controller
 @demo demo/index.html
 -->
 <link rel="import" href="../bower_components/paper-slider/paper-slider.html">
 
-<dom-module id="control-panel">
+<dom-module id="tween-controller">
   <template>
     <style>
 
@@ -150,7 +150,7 @@ in step 3 above.
       attached: function() {
         TweenMax.ticker.addEventListener('tick', this.update.bind(this));
       },
-      is: 'control-panel',
+      is: 'tween-controller',
 
       listeners: {
         'timeScaleSlider.immediate-value-change' : '_updateTimeScale',

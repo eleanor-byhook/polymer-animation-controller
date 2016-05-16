@@ -1,14 +1,14 @@
 #Polymer Animation Controller
 
-This custom polymer element (`<control-panel>`) allows you to control another polymer element that tweens using Greensock's TimelineLite or TimelineMax object.
+This custom polymer element (`<tween-controller>`) allows you to control another polymer element that tweens using Greensock's TimelineLite or TimelineMax object.
 
 ###To demo
 Open in Brackets or run `python -m SimpleHTTPServer` and open localhost:8000 in your browser
 
 ###To use
 
-1. Add a `<control-panel>` element inside the template of the tweening element and pass it a `timeline` property. E.g.:
-`<control-panel timeline="{{timeline}}"></control-panel>`
+1. Add a `<tween-controller>` element inside the template of the tweening element and pass it a `timeline` property. E.g.:
+`<tween-controller timeline="{{timeline}}"></tween-controller>`
 
 2. The parent tweening component must also declare the instance of timeline as a property:
 
@@ -35,5 +35,5 @@ Open in Brackets or run `python -m SimpleHTTPServer` and open localhost:8000 in 
 3b. Optionally if you wish to use the repeat delay funtionality, make sure the
    constructor of the timeline includes a `repeat: -1` value, as shown above.
   
-Control of the Timeline instance is now given to the `<control-panel>` component.
+Control of the Timeline instance is now given to the `<tween-controller>` component.
 
