@@ -1,3 +1,5 @@
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+
 <dom-module id="control-panel">
   <template>
     <style>
@@ -12,6 +14,7 @@
         padding: 10px;
         background-color: white;
         border: 2px solid rgb(37,78,208);
+        z-index: 1000;
       }
 
       .title {
@@ -24,7 +27,7 @@
         font-size: 14px;
         line-height: 32px;
         height: 32px;
-        width: 120px;
+        width: 130px;
         margin: 0;
         text-align: center;
       }      
@@ -34,7 +37,6 @@
       }
 
       .progressPercent {
-        width: 85px;
       }
 
       paper-slider {
@@ -108,9 +110,6 @@
     Polymer({
       is: 'control-panel',
 
-      ready: function() {
-      },
-
       listeners: {
         'timeScaleSlider.immediate-value-change' : '_updateTimeScale',
         'timeScaleSlider.change' : '_resumePlaying',
@@ -157,6 +156,7 @@
         this.timeline.pause();
       },
       _play: function(){
+        this._reset();
         this.timeline.play();
       }
 
