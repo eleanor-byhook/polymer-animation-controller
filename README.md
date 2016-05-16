@@ -1,8 +1,11 @@
+#Polymer Animation Scrubber
+
+This custom polymer element (`<control-panel>`) allows you to control another polymer element that tweens using Greensock's TimelineLite or TimelineMax object.
+
+###To demo
 Open in Brackets or run `python -m SimpleHTTPServer` and open localhost:8000 in your browser
 
-This custom polymer element (`<control-panel>`) allows you to control another polymer element that tweens using Greensock's TimelineLite or TimelineMax object.  
-
-To use: 
+###To use
 
 1. Add a `<control-panel>` element inside the template of the tweening element and pass it a `timeline` property. E.g.:
 `<control-panel timeline="{{timeline}}"></control-panel>`
