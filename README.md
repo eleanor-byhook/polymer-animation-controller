@@ -1,4 +1,4 @@
-#Polymer Animation Controller
+#Polymer Tween Controller
 
 This custom polymer element (`<tween-controller>`) allows you to control another polymer element that tweens using Greensock's TimelineLite or TimelineMax object.
 
