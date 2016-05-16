@@ -3,7 +3,7 @@
 This custom polymer element (`<tween-controller>`) allows you to control another polymer element that tweens using Greensock's TimelineLite or TimelineMax object.
 
 ###To demo
-Open in Brackets or run `python -m SimpleHTTPServer` and open localhost:8000 in your browser
+Open in Brackets or run `python -m SimpleHTTPServer` in the directory above this repo, open localhost:8000 in your browser and select the tween-controller folder.
 
 ###To use
 
