@@ -108,6 +108,9 @@
     'use strict';
 
     Polymer({
+      attached: function() {
+        TweenMax.ticker.addEventListener('tick', this.update.bind(this));
+      },
       is: 'control-panel',
 
       listeners: {
@@ -120,6 +123,11 @@
         'play.tap' : '_play',
         'pause.tap' : '_pause',
         'reset.tap' : '_reset'
+      },
+
+      update: function() {
+        var percentComplete = Math.round(100 * (this.timeline.time() / this.timeline.duration()));
+        this.notifyPath('timeline.progress', percentComplete);
       },
 
       _updateTimeScale: function(){

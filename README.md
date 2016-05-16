@@ -25,21 +25,15 @@ Open in Brackets or run `python -m SimpleHTTPServer` and open localhost:8000 in 
 
   ```
   ready: function() {
-    this.timeline = new TimelineMax({onUpdateScope: this, onUpdate: this.updateSlider.bind(this), repeat: -1});
+    this.timeline = new TimelineMax({ repeat: -1});
     this.timeline.pause();
     this.timeline.add( new TweenLite.to( this.$$('#whale'), 1, {x: '701px'}), 0);
   },
   ```
 
 
-4. Additionally, an `updateSlider` method must be added to the parent tweening element that notifies the listening `timeline` property of the update.  E.g.: 
- 
-  ```
-  updateSlider: function(){
-    var percentComplete = Math.round(100 * (this.timeline.time() / this.timeline.duration()));
-    this.notifyPath('timeline.progress', percentComplete);
-  }
-  ```
+3b. Optionally if you wish to use the repeat delay funtionality, make sure the
+   constructor of the timeline includes a `repeat: -1` value, as shown above.
   
 Control of the Timeline instance is now given to the `<control-panel>` component.
 
