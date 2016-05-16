@@ -1,4 +1,4 @@
-#Polymer Animation Scrubber
+#Polymer Animation Controller
 
 This custom polymer element (`<control-panel>`) allows you to control another polymer element that tweens using Greensock's TimelineLite or TimelineMax object.
 
