@@ -1,3 +1,5 @@
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+
 <dom-module id="control-panel">
   <template>
     <style>
@@ -9,9 +11,10 @@
         bottom: 30px;
         right: 30px;
         width: auto;
-        padding: 20px 15px;
+        padding: 10px;
         background-color: white;
-        border: 1px solid gray;
+        border: 2px solid rgb(37,78,208);
+        z-index: 1000;
       }
 
       .title {
@@ -22,7 +25,10 @@
 
       p {
         font-size: 14px;
-        width: 120px;
+        line-height: 32px;
+        height: 32px;
+        width: 130px;
+        margin: 0;
         text-align: center;
       }      
 
@@ -31,11 +37,13 @@
       }
 
       .progressPercent {
-        width: 85px;
       }
 
       paper-slider {
         width: 50%;
+        --paper-slider-knob-start-color: --google-blue-700;
+        --paper-slider-knob-start-border-color: --google-blue-700;
+        --paper-slider-pin-start-color: --google-blue-700;
       }
 
       #progressSlider {
@@ -49,6 +57,7 @@
       #timeScaleContainer {
         display: flex;
         justify-content: center;
+        padding-top: 10px;
       }
 
       #delayContainer {
@@ -60,10 +69,13 @@
       }
 
       button {
-        padding: 1rem;
-        margin: 15px;
+        padding: 0.7rem;
+        margin: 5px;
         font-size: 12px;
         cursor: pointer;
+        background-color: lightgray;
+        border: 1px solid black;
+        border-radius: 4px;
       }
     </style>
 
@@ -97,9 +109,6 @@
 
     Polymer({
       is: 'control-panel',
-
-      ready: function() {
-      },
 
       listeners: {
         'timeScaleSlider.immediate-value-change' : '_updateTimeScale',
@@ -147,6 +156,7 @@
         this.timeline.pause();
       },
       _play: function(){
+        this._reset();
         this.timeline.play();
       }
 
