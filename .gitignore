@@ -4,3 +4,5 @@
 .swo
 .swn
 .DS_Store
+/bower_components
+
