@@ -1,0 +1,28 @@
+<!DOCTYPE html
+<html>
+  <head>
+    <title>omg</title>
+    <script src="../bower_components/platform/platform.js"></script>
+    <script src="../bower_components/gsap/src/uncompressed/TweenMax.js"></script>
+    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+    <link rel="import" href="../tween-controller.html">
+    <link rel="import" href="./my-tweens.html">
+    <style>
+      *{
+        white-space: nowrap;
+      }
+
+      body{
+        margin: 0;
+        font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+
+    <my-tweens></my-tweens>
+
+  </body>
+</html>
