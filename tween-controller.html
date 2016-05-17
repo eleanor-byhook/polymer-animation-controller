@@ -1,6 +1,45 @@
+<!--
+`tween-controller` is a reusable custom polymer element that allows you to control
+another polymer element that animates solely using greensock's TimelineLite or
+TimelineMax object. 
+
+To use:
+
+1. Add a `<tween-controller timeline="{{timeline}}"></tween-controller>` tag 
+inside the template of the the tweening element.  
+
+2. The parent tweening component must also declare the instance of timeline as
+a property, e.g.:
+  ```
+  properties: {
+    timeline: {
+      type: Object,
+      notify: true
+    }
+  }
+  ```
+
+3. Assigning the value to the timeline property should happen on `ready`
+(rather than in the property declaration):
+
+  ```
+  ready: function() {
+    this.timeline = new TimelineMax({ repeat: -1});
+    this.timeline.pause();
+    this.timeline.add( new TweenLite.to( this.$$('#whale'), 1, {x: '701px'}), 0);
+  }
+  ```
+
+4. (Optional) If you wish to use the Repeat Delay functionality, make sure the
+constructor of the timeline object includes a `{ repeat: -1 }` value, as shown
+in step 3 above.
+
+@element tween-controller
+@demo demo/index.html
+-->
 <link rel="import" href="../bower_components/paper-slider/paper-slider.html">
 
-<dom-module id="control-panel">
+<dom-module id="tween-controller">
   <template>
     <style>
 
@@ -108,19 +147,31 @@
     'use strict';
 
     Polymer({
-      is: 'control-panel',
+      attached: function() {
+        TweenMax.ticker.addEventListener('tick', this.update.bind(this));
+      },
+      is: 'tween-controller',
 
       listeners: {
         'timeScaleSlider.immediate-value-change' : '_updateTimeScale',
-        'timeScaleSlider.change' : '_resumePlaying',
+        'timeScaleSlider.change' : 'resume',
         'delaySlider.immediate-value-change' : '_updateDelaySlider',
-        'delaySlider.change' : '_resumePlaying',
+        'delaySlider.change' : 'resume',
         'progressSlider.immediate-value-change' : '_updateProgress',
-        'reverse.tap' : '_reverse',
-        'play.tap' : '_play',
-        'pause.tap' : '_pause',
-        'reset.tap' : '_reset'
+        'reverse.tap' : 'reverse',
+        'play.tap' : 'play',
+        'pause.tap' : 'pause',
+        'reset.tap' : 'reset'
       },
+    
+      /** Updates timeline.progress with the current percent complete.*/
+
+      update: function() {
+        var percentComplete = Math.round(100 * (this.timeline.time() / this.timeline.duration()));
+        this.notifyPath('timeline.progress', percentComplete);
+      },
+
+      /** Update the timescale of the timeline.  Defaults to 1x */
 
       _updateTimeScale: function(){
         this.timeline.pause();
@@ -128,35 +179,50 @@
         this.timeline._timeScale = newValue;
       }, 
 
+      /** Updates the repeat delay of the timeline.  If the constructor has
+      a repeat of -1, the repeat delay represents the delay before the timeline
+      repeats.  Defaults to 0 */
+
       _updateDelaySlider: function(){
         this.timeline.pause();
         var newValue = this.$$('#delaySlider').immediateValue;
         this.timeline._repeatDelay = newValue;
       }, 
-      _resumePlaying: function() {
+
+      /** Resume the timeline from whatever its prior state was */
+
+      resume: function() {
         this.timeline.resume();
       },
 
+      /** Update the timeline to jump to whatever immediate value is given by the
+      slider.  Happens when the user manually updates the slider. */
       _updateProgress: function(){
         var newValue = this.$$('#progressSlider').immediateValue;
         this.timeline.seek(newValue/100);
         this.timeline.pause();
       },
 
-      _reset: function() {
+      /** Resets the timeline to its starting point and pauses */
+      reset: function() {
          this.timeline.seek(0);
          this.timeline.reverse();
       },
 
-      _reverse: function() {
+      /** Reverse the timeline.  Requires that the timeline's current position
+      is > 0. */
+      reverse: function() {
         this.timeline.reverse();
       },
 
-      _pause: function(){
+      /** Pause the timeline. */
+      pause: function(){
         this.timeline.pause();
       },
-      _play: function(){
-        this._reset();
+
+      /** Play the timeline */
+      play: function(){
+        this.reset();
         this.timeline.play();
       }
 

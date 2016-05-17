@@ -16,7 +16,9 @@
   ],
   "dependencies": {
     "polymer": "^1.4.0",
+    "iron-component-page": "^1.1.6",
     "gsap": "^1.18.4",
-    "platform": "Polymer/platform#^0.4.2"
+    "platform": "Polymer/platform#^0.4.2",
+    "paper-slider": "PolymerElements/paper-slider#^1.0.10"
   }
 }
