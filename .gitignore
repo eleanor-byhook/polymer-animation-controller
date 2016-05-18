@@ -1,6 +1,7 @@
 #bower_components
 .idea
-.swp
-.swo
-.swn
+*.swp
+*.swo
+*.swn
 .DS_Store
+bower_components/

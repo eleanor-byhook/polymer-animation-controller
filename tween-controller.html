@@ -1,0 +1,233 @@
+<!--
+`tween-controller` is a reusable custom polymer element that allows you to control
+another polymer element that animates solely using greensock's TimelineLite or
+TimelineMax object. 
+
+To use:
+
+1. Add a `<tween-controller timeline="{{timeline}}"></tween-controller>` tag 
+inside the template of the the tweening element.  
+
+2. The parent tweening component must also declare the instance of timeline as
+a property, e.g.:
+  ```
+  properties: {
+    timeline: {
+      type: Object,
+      notify: true
+    }
+  }
+  ```
+
+3. Assigning the value to the timeline property should happen on `ready`
+(rather than in the property declaration):
+
+  ```
+  ready: function() {
+    this.timeline = new TimelineMax({ repeat: -1});
+    this.timeline.pause();
+    this.timeline.add( new TweenLite.to( this.$$('#whale'), 1, {x: '701px'}), 0);
+  }
+  ```
+
+4. (Optional) If you wish to use the Repeat Delay functionality, make sure the
+constructor of the timeline object includes a `{ repeat: -1 }` value, as shown
+in step 3 above.
+
+@element tween-controller
+@demo demo/index.html
+-->
+
+<link rel="import" href="./bower_components/paper-slider/paper-slider.html">
+
+<dom-module id="tween-controller">
+  <template>
+    <style>
+
+      :host {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: auto;
+        padding: 10px;
+        background-color: white;
+        border: 2px solid rgb(37,78,208);
+        z-index: 1000;
+      }
+
+      .title {
+        display: flex;
+        margin: 0 5px;
+        justify-content: space-around;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 32px;
+        height: 32px;
+        width: 130px;
+        margin: 0;
+        text-align: center;
+      }      
+
+      .timelineName {
+        text-transform: capitalize;
+      }
+
+      .progressPercent {
+      }
+
+      paper-slider {
+        width: 50%;
+        --paper-slider-knob-start-color: --google-blue-700;
+        --paper-slider-knob-start-border-color: --google-blue-700;
+        --paper-slider-pin-start-color: --google-blue-700;
+      }
+
+      #progressSlider {
+        width: 100%;
+      }
+
+      #timescaleSlider {
+        text-align: center;
+      }
+
+      #timeScaleContainer {
+        display: flex;
+        justify-content: center;
+        padding-top: 10px;
+      }
+
+      #delayContainer {
+        display: flex;
+        justify-content: center;
+      }
+
+      #buttonContainer {
+      }
+
+      button {
+        padding: 0.7rem;
+        margin: 5px;
+        font-size: 12px;
+        cursor: pointer;
+        background-color: lightgray;
+        border: 1px solid black;
+        border-radius: 4px;
+      }
+    </style>
+
+    <div class="title">
+      <p class="timelineName">{{timeline.name}}</p>
+      <p class="progressPercent">{{timeline.progress}}% complete</p>
+    </div>
+      <paper-slider id="progressSlider" pin min="0" max="100" step="1" value="{{timeline.progress}}"></paper-slider>
+      <div class="buttonContainer">
+        <button id="reverse">Reverse</button>
+        <button id="play">Play</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+      </div>
+      <div id="timeScaleContainer">
+      <p>Time Scale: {{timeline._timeScale}}x</p>
+      <paper-slider id="timeScaleSlider" pin min="0.25" max="4" step="0.25"
+      value="{{timeline._timeScale}}"></paper-slider>
+    </div>
+    <div id="delayContainer">
+      <p>Repeat Delay: {{timeline._repeatDelay}}s</p>
+      <paper-slider id="delaySlider" pin min="0" max="4" step="0.25" value="{{timeline._repeatDelay}}"></paper-slider>
+    </div>
+
+
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      attached: function() {
+        TweenMax.ticker.addEventListener('tick', this.update.bind(this));
+      },
+      is: 'tween-controller',
+
+      listeners: {
+        'timeScaleSlider.immediate-value-change' : '_updateTimeScale',
+        'timeScaleSlider.change' : 'resume',
+        'delaySlider.immediate-value-change' : '_updateDelaySlider',
+        'delaySlider.change' : 'resume',
+        'progressSlider.immediate-value-change' : '_updateProgress',
+        'reverse.tap' : 'reverse',
+        'play.tap' : 'play',
+        'pause.tap' : 'pause',
+        'reset.tap' : 'reset'
+      },
+    
+      /** Updates timeline.progress with the current percent complete.*/
+
+      update: function() {
+        var percentComplete = Math.round(100 * (this.timeline.time() / this.timeline.duration()));
+        this.notifyPath('timeline.progress', percentComplete);
+      },
+
+      /** Update the timescale of the timeline.  Defaults to 1x */
+
+      _updateTimeScale: function(){
+        this.timeline.pause();
+        var newValue = this.$$('#timeScaleSlider').immediateValue;
+        this.timeline._timeScale = newValue;
+      }, 
+
+      /** Updates the repeat delay of the timeline.  If the constructor has
+      a repeat of -1, the repeat delay represents the delay before the timeline
+      repeats.  Defaults to 0 */
+
+      _updateDelaySlider: function(){
+        this.timeline.pause();
+        var newValue = this.$$('#delaySlider').immediateValue;
+        this.timeline._repeatDelay = newValue;
+      }, 
+
+      /** Resume the timeline from whatever its prior state was */
+
+      resume: function() {
+        this.timeline.resume();
+      },
+
+      /** Update the timeline to jump to whatever immediate value is given by the
+      slider.  Happens when the user manually updates the slider. */
+      _updateProgress: function(){
+        var newValue = this.$$('#progressSlider').immediateValue;
+        this.timeline.seek(newValue/100);
+        this.timeline.pause();
+      },
+
+      /** Resets the timeline to its starting point and pauses */
+      reset: function() {
+         this.timeline.seek(0);
+         this.timeline.reverse();
+      },
+
+      /** Reverse the timeline.  Requires that the timeline's current position
+      is > 0. */
+      reverse: function() {
+        this.timeline.reverse();
+      },
+
+      /** Pause the timeline. */
+      pause: function(){
+        this.timeline.pause();
+      },
+
+      /** Play the timeline */
+      play: function(){
+        this.reset();
+        this.timeline.play();
+      }
+
+    });
+  })();
+  </script>
+</dom-module>
